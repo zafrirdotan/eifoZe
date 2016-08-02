@@ -18,7 +18,11 @@ body {
 }
 .navbar-nav {
     margin: 0.0px 0px;
-        margin-left: -13px;
+    margin-left: -13px;
+}
+.navbar-default {
+    background-color: #eaeaea;
+    border-color: #e7e7e7;
 }
 
 div.tagl-visb-btns {
@@ -74,7 +78,10 @@ mapLayers{
     padding: 13px;
     text-align: center;
 }
-
+section.container {
+    padding-top: 0.4em;
+    margin-top: 3.6em;
+}
 
 
 

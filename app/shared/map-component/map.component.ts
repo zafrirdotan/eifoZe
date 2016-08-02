@@ -36,11 +36,7 @@ interface marker {
 
     template: `
 
-    <div style="-moz-user-select: none; -webkit-user-select: none; 
-            -ms-user-select:none; user-select:none;-o-user-select:none;" 
-            unselectable="on"
-            onselectstart="return false;" 
-            onmousedown="return false;">
+    <div>
         <mapLayers [layers]="_layers" (onChange)="filterChanged($event)">map layers</mapLayers>
         <sebm-google-map 
         [latitude]="_lat"
