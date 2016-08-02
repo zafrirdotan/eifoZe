@@ -1,0 +1,63 @@
+body {
+  background-color: #f8f8f8; }
+
+.titel {
+  color: #32a298 !important;
+  text-decoration: underline;
+  font-size: 26px;
+  font-family: cursive;
+  font-weight: bolder; }
+
+.addLayer-btn {
+  padding: 9px 58px;
+  font-size: 25px;
+  border: gray solid 1px;
+  color: #2e2828; }
+
+.navbar-nav {
+  margin: 0.0px 0px;
+  margin-left: -13px; }
+
+.btn {
+  padding: 9px 17px;
+  font-size: 19px; }
+
+map {
+  height: 308px; }
+
+.saveLayer {
+  margin-bottom: 48px; }
+
+mapLayers {
+  position: fixed;
+  z-index: 4;
+  margin-left: 276px;
+  margin-top: 40px;
+  display: block;
+  width: 70px;
+  height: 75%;
+  background: transparent; }
+
+.off {
+  color: green !important;
+  margin: 3px -5px;
+  font-size: 18px;
+  width: 69px;
+  border-radius: 27px;
+  padding: 13px;
+  text-align: center; }
+
+.on[_ngcontent-sjj-7] {
+  background-color: #c3c3dc;
+  color: black; }
+
+.on {
+  margin: 3px -5px;
+  font-size: 18px;
+  width: 69px;
+  border-radius: 27px;
+  padding: 13px;
+  text-align: center; }
+
+body {
+  background-color: #f8f8f8; }

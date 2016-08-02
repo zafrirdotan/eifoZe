@@ -1,0 +1,32 @@
+[{
+    "_id": "6e732fe",
+    "name": "ATMs",
+    "locs": [
+        {
+        "name": "Poalim Gvirol",
+        "lng": 7678,
+        "lat": 7468
+        },
+        {
+        "name": "Poalim shanan",
+        "lng": 7679,
+        "lat": 7469
+        }
+    ]
+},
+{
+    "_id": "6e732f6",
+    "name": "Banks",
+    "locs": [
+        {
+        "name": "Poalim Gvirol",
+        "lng": 7678,
+        "lat": 7468
+        },
+        {
+        "name": "Poalim shanan",
+        "lng": 7679,
+        "lat": 7469
+        }
+    ]
+}]
