@@ -7,7 +7,10 @@ import {MapComponent} from '../map-component/map.component';
   selector: 'editable-items',
   directives: [REACTIVE_FORM_DIRECTIVES, MapComponent],
   template: `
-    <section>
+    <section style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" 
+             unselectable="on"
+             onselectstart="return false;" 
+             onmousedown="return false;">
      <button type="button"  class="btn btn-default" (click)="visibleFlag = !visibleFlag">Add Location</button>
       <div [hidden]="!visibleFlag" >
        <button type="button"  class="btn" (click)="visibleMap = !visibleMap">Use Map</button>

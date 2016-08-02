@@ -20,6 +20,7 @@ interface marker {
 
 @Component({
     moduleId: module.id,
+    // selector: 'sebm-google-map',
     selector: 'sebm-google-map',
     directives: [GOOGLE_MAPS_DIRECTIVES,ToggleButton, MapLayerComponent],
     providers: [GoogleMapsAPIWrapper, LayerFilterComponent],
@@ -35,11 +36,15 @@ interface marker {
 
     template: `
 
-    <div>
+    <div style="-moz-user-select: none; -webkit-user-select: none; 
+            -ms-user-select:none; user-select:none;-o-user-select:none;" 
+            unselectable="on"
+            onselectstart="return false;" 
+            onmousedown="return false;">
         <mapLayers [layers]="_layers" (onChange)="filterChanged($event)">map layers</mapLayers>
         <sebm-google-map 
-        [latitude]="lat"
-        [longitude]="lng"
+        [latitude]="_lat"
+        [longitude]="_lng"
         [zoom]="zoom"
         [disableDefaultUI]="false"
         [zoomControl]="false"
@@ -48,7 +53,6 @@ interface marker {
             
         <sebm-google-map-marker 
             *ngFor="let m of _markers | markPipe; let i = index"
-            
             (markerClick)="clickedMarker(m.label, i)"
             [latitude]="m.lat"
             [longitude]="m.lng"
@@ -58,29 +62,22 @@ interface marker {
             ">
             
             <sebm-google-map-info-window>
-            
             <strong>{{m.label}}</strong>
-            
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
-        <sebm-google-map-marker *ngIf="myPos"
-          
-          [latitude]="myPos.lat"
-          [longitude]="myPos.lng"
-          [label]="'Me'">
-          
         
+        <sebm-google-map-marker *ngIf="_myPos"
+          [latitude]="_myPos.lat"
+          [longitude]="_myPos.lng"
+          [label]="'Me'">
         </sebm-google-map-marker>
+        
         </sebm-google-map>
     </div>
 
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <a class="btn addLayer-btn" routerLink="/layer/edit">Add your own Layer</a>
     </nav>
-
-   
-
-
 `
 })
 
@@ -90,14 +87,16 @@ export class MapComponent implements OnInit {
 
     state:boolean = false;
     // google maps zoom level
-    zoom: number = 8;
+    zoom: number = 16;
     
 
     @Output() private locAdded = new EventEmitter;
 
     // center position for the map
-    private _lat:number;
-    private _lng:number;
+    // lat: number = 32.087289;
+    // lng: number = 34.803521;
+    private _lat : number = 0;
+    private _lng : number = 0;
     
     private _layers  : LayerModel[];
     private _markers : marker[] = [];
@@ -137,24 +136,23 @@ export class MapComponent implements OnInit {
     
     //gets the current location and rendering it to the map
     getCurrentPosition () {
+        console.log('im here...getting position');
+        
         let myPosition;
         navigator.geolocation.getCurrentPosition((pos) => {
             myPosition = {lat : pos.coords.latitude, lng : pos.coords.longitude, label:'Me'};
+            this._myPos = myPosition;
             this._lat = myPosition.lat;
             this._lng = myPosition.lng;
         })
     }
 
     createMarkers(layer) {
-                    layer.locs.forEach(loc => {
-                        const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
-                        this._markers.push(marker);
-                    })
-                }
-
-
-
-   
+        layer.locs.forEach(loc => {
+            const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
+            this._markers.push(marker);
+        })
+    }
 
     clickedMarker(label: string, index: number){
         console.log(`clicked the marker: ${label || index}`)
@@ -171,9 +169,9 @@ export class MapComponent implements OnInit {
     
     //function thats allow us to follow myPosition on the map
     showPosition(pos){
-        let mySelf = {lat: 0, lng:0, isShown: true, label: 'Me', layerId: 'me'};
-        mySelf.lat = pos.coords.latitude;
-        mySelf.lng = pos.coords.longitude;
+        // let mySelf = {lat: 0, lng:0, isShown: true, label: 'Me', layerId: 'me'};
+        // mySelf.lat = pos.coords.latitude;
+        // mySelf.lng = pos.coords.longitude;
         // this._markers.push(mySelf);
     }
 

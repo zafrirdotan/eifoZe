@@ -14,7 +14,10 @@ export interface ILoc {
   styleUrls: [`layer.css`],
   // selector: 'monster-list',
   template: `
-    <section *ngIf="layer">
+    <section *ngIf="layer" style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" 
+          unselectable="on"
+          onselectstart="return false;" 
+          onmousedown="return false;">>
       <h2>Layer {{layer.label}}</h2>
     </section>
   `

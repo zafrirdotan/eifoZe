@@ -6,7 +6,10 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
   outputs: ['filterChange'],
   styles: [`section {background-color: #DDD; margin: 2em 0; padding:0.4em 1em 1em; border-radius:0.4em} `],
   template: `
-      <section>
+      <section style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" 
+               unselectable="on"
+               onselectstart="return false;" 
+               onmousedown="return false;">
         <h3 *ngIf="isAdminMode">Filter</h3>
         <h3 *ngIf="!isAdminMode">Search</h3>
         By Name: <input type="text" [(ngModel)]="filter.byName" (input)="filterChanged()" />

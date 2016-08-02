@@ -18,9 +18,17 @@ body {
   margin: 0.0px 0px;
   margin-left: -13px; }
 
+div.tagl-visb-btns {
+  right: 0; }
+
 .btn {
-  padding: 9px 17px;
-  font-size: 19px; }
+  padding: 1em;
+  font-size: 93%;
+  font-weight: bolder;
+  position: absolute;
+  left: 30%;
+  right: 30%;
+  background: greenyellow; }
 
 map {
   height: 308px; }
@@ -31,10 +39,10 @@ map {
 mapLayers {
   position: fixed;
   z-index: 4;
-  margin-left: 276px;
-  margin-top: 40px;
+  right: 0;
+  margin-top: 2em;
   display: block;
-  width: 70px;
+  width: 5.2em;
   height: 75%;
   background: transparent; }
 
