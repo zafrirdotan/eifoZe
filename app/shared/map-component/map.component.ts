@@ -63,6 +63,14 @@ interface marker {
             
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
+        <sebm-google-map-marker *ngIf="myPos"
+          
+          [latitude]="myPos.lat"
+          [longitude]="myPos.lng"
+          [label]="'Me'">
+          
+        
+        </sebm-google-map-marker>
         </sebm-google-map>
     </div>
 
@@ -82,21 +90,18 @@ export class MapComponent implements OnInit {
 
     state:boolean = false;
     // google maps zoom level
-
     zoom: number = 8;
-
-
-    // initial center position for the map
-
-    lat:number = 32.087289;
-    lng:number = 34.803521;
+    
 
     @Output() private locAdded = new EventEmitter;
 
-    private _layers : LayerModel[];
-    private _markers : marker[] = []; 
- 
-
+    // center position for the map
+    private _lat:number;
+    private _lng:number;
+    
+    private _layers  : LayerModel[];
+    private _markers : marker[] = [];
+    private _myPos    : marker; 
 
     constructor(private _wrapper: GoogleMapsAPIWrapper, private layerService: LayerService){
          this._wrapper.getNativeMap().then((m) => {
@@ -112,34 +117,37 @@ export class MapComponent implements OnInit {
 
 
     ngOnInit(){
-       
-
+        //gets the current position
+        this.getCurrentPosition();
+        
         const prmLayers = this.layerService.query();
         prmLayers.then((layers:LayerModel[]) => {
+            //by query it gets our layers to layers[]
             this._layers = layers;
-            console.log('layers:', layers);
             this._markers = [];
-            console.log("this._markers:", this._markers);
-
-            
             layers.forEach(layer => this.createMarkers(layer));
-
         });
 
-
+        //its allow to follow the location on moving.
         if (navigator.geolocation) {
-            // console.log('navigator.geolocation:');
-            // console.log('lets see what fucking info we get from this useless function: ',navigator.geolocation.getCurrentPosition(this.showError.bind(this)));
             navigator.geolocation.watchPosition(this.showPosition.bind(this), this.showError.bind(this));
-            // this.showError);
-
         }
 
     }
+    
+    //gets the current location and rendering it to the map
+    getCurrentPosition () {
+        let myPosition;
+        navigator.geolocation.getCurrentPosition((pos) => {
+            myPosition = {lat : pos.coords.latitude, lng : pos.coords.longitude, label:'Me'};
+            this._lat = myPosition.lat;
+            this._lng = myPosition.lng;
+        })
+    }
+
     createMarkers(layer) {
                     layer.locs.forEach(loc => {
                         const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
-                        // console.log('marker', marker);
                         this._markers.push(marker);
                     })
                 }
@@ -148,61 +156,43 @@ export class MapComponent implements OnInit {
 
    
 
-        clickedMarker(label: string, index: number){
-            console.log(`clicked the marker: ${label || index}`)
+    clickedMarker(label: string, index: number){
+        console.log(`clicked the marker: ${label || index}`)
+    }
 
-        }
-
-        mapClicked($event: MouseEvent){
-            this.locAdded.emit($event.coords);
-        }
-
-
-        markerDragEnd(m: marker, $event: MouseEvent){
-            // console.log('dragEnd', m, $event);
-        }
+    mapClicked($event: MouseEvent){
+        this.locAdded.emit($event.coords);
+    }
 
 
+    markerDragEnd(m: marker, $event: MouseEvent){
+        // console.log('dragEnd', m, $event);
+    }
+    
+    //function thats allow us to follow myPosition on the map
     showPosition(pos){
         let mySelf = {lat: 0, lng:0, isShown: true, label: 'Me', layerId: 'me'};
+        mySelf.lat = pos.coords.latitude;
+        mySelf.lng = pos.coords.longitude;
+        // this._markers.push(mySelf);
+    }
 
-
-            // console.log(pos);
-            mySelf.lat = pos.coords.latitude;
-            mySelf.lng = pos.coords.longitude;
-            // console.log(mySelf);
-
-            console.warn('Your current position is:');
-            // console.log('Latitude : ' + this.latHome);
-            // console.log('Longitude: ' + this.lngHome);
-            // console.log('More or less ' + crd.accuracy + ' meters.');
-            // console.log('mySelf:',mySelf);
-
-            this._markers.push(mySelf);
-
-            console.log('this._markers:', this._markers);
-
-
+    showError(error){
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred");
+                break;
         }
-
-        showError(error){
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    alert("User denied the request for Geolocation");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert("Location information is unavailable");
-                    break;
-                case error.TIMEOUT:
-                    alert("The request to get user location timed out");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert("An unknown error occurred");
-                    break;
-            }
-        }
-
-
+    }
         // autocomplete() {
         //     this._loader.load().then(() => {
         //         let autocomplete = new google.maps.places.Autocomplete(document.getElementById("autocompleteInput"), {});
@@ -211,14 +201,11 @@ export class MapComponent implements OnInit {
         //             console.log(place);
         //         });
         //     })};
-
-
 // }
 
-
     filterChanged(layer){
-        console.log('filterChanged',  layer);
-        console.log('before' ,this._markers);
+        // console.log('filterChanged',  layer);
+        // console.log('before' ,this._markers);
         if(!layer.isShown){
             this._markers = this._markers.map((marker)=> {
                 if(marker.layerId === layer.id){
@@ -229,10 +216,7 @@ export class MapComponent implements OnInit {
                 };
             });
             layer.isShown = !layer.ishown;
-            
-            
-            console.log( 'after:',this._markers, layer);
-            
+            // console.log( 'after:',this._markers, layer);
         }else{
              this._markers = this._markers.map((marker)=> {
                 if(marker.layerId === layer.id){
@@ -243,8 +227,7 @@ export class MapComponent implements OnInit {
                 };
             });
             layer.isShown = !layer.isShown;
-            console.log( 'after:',this._markers, layer);
+            // console.log( 'after:',this._markers, layer);
         }
-    
     }
 }
