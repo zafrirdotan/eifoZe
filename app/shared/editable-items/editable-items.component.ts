@@ -11,7 +11,9 @@ import {MapComponent} from '../map-component/map.component';
      <button type="button"  class="btn btn-default" (click)="visibleFlag = !visibleFlag">Add Location</button>
       <div [hidden]="!visibleFlag" >
        <button type="button"  class="btn" (click)="visibleMap = !visibleMap">Use Map</button>
-       <map (locAdded)="newLoc = $event"></map>
+       
+       <map (locAdded)="newLoc = $event" [options]="mapOptions"></map>
+       
           <div class="form-group">
             <label>Name:</label>
             <input type="text" class="form-control" [(ngModel)]="newLoc.name">
@@ -61,6 +63,7 @@ export class EditableItemsComponent  {
 private visibleFlag = false;
 private visibleMap = false;
 private newLoc = {};
+private mapOptions = {showMe: true, showLayers:false};
  
   
   constructor(private formBuilder: FormBuilder) { }
@@ -78,6 +81,10 @@ private newLoc = {};
       // a new item
       this.edit.emit({type: 'add', item: this.newLoc});
       this.newLoc = {};
+  }
+  
+  disableMapLayers(){
+    // let mapLayer = new MapComponent();
   }
   
    

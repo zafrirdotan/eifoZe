@@ -1,7 +1,6 @@
 <h1>Add Layer</h1>
 <form [formGroup]="frmLayer" (submit)="save()" >
   <div>
-    
     <label>Layer Name:</label>
     <input type="text" class="form-control" formControlName="name" autofocus>
     <p class="text-danger" *ngIf="frmLayer.controls.name.dirty && frmLayer.controls.name.errors?.required">Layer has no name</p>

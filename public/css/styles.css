@@ -25,6 +25,9 @@ body {
 div.tagl-visb-btns {
   right: 0; }
 
+ToggleBtn.mainToggleBtnOff {
+  background: gray; }
+
 .btn {
   padding: 1em;
   font-size: 93%;
@@ -52,11 +55,10 @@ mapLayers {
 
 .off {
   color: green !important;
-  margin: 3px -5px;
-  font-size: 18px;
-  width: 69px;
-  border-radius: 27px;
-  padding: 13px;
+  margin: 0.2em -0.5em;
+  font-size: 1em;
+  width: 4em;
+  border-radius: 1em;
   text-align: center; }
 
 .on[_ngcontent-sjj-7] {
@@ -64,11 +66,10 @@ mapLayers {
   color: black; }
 
 .on {
-  margin: 3px -5px;
-  font-size: 18px;
+  margin: -2em -0.3em;
+  /* font-size: 18px; */
   width: 69px;
-  border-radius: 27px;
-  padding: 13px;
+  /* border-radius: 27px; */
   text-align: center; }
 
 section.container {

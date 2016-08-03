@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
-
 import {ChatRoomService} from './chat/chat-room.service';
 import {LayerService} from './layer/layer.service';
 import {MapComponent} from './shared/map-component/map.component';

@@ -15,9 +15,13 @@ import {LayerModel} from "../../layer/layer.model";
     template: `<section class="mapLayers">
                     <!--<layer-filter  (filterChange)="filter = $event"></layer-filter>-->
                 <div class="tagl-visb-btns">
-                    <toggleButton *ngFor="let layer of layers" (click)="onClick($event, layer)" 
-                        class="visb-Btn" [ngClass]="on ? 'on' : 'off'">
-                        {{layer.name}}
+                    <toggleButton class="mainToggleBtn" [ngClass]="_main ? 'mainToggleBtnOn' : 'mainToggleBtnOff'" (click)="onMainClick()">
+                        <div *ngIf="_main">
+                            <toggleButton *ngFor="let layer of layers" (click)="onClick($event, layer)" 
+                                class="visb-Btn" [ngClass]="on ? 'on' : 'off'">
+                                {{layer.name}}
+                            </toggleButton>
+                        </div>
                     </toggleButton>
                 </div>
                </section>
@@ -28,24 +32,24 @@ import {LayerModel} from "../../layer/layer.model";
 export class MapLayerComponent implements OnInit {
     private search = true;
     // private layerFilter = false;
+    private _main = false;
+    private _test: string = '+'
     @Input() on = false;
     @Input() private layers: LayerModel[];
+    @Output() onMainChange = new EventEmitter();
     @Output() onChange = new EventEmitter();
 
     onClick(ev, layer){
-     console.log('ev:', ev);
-     console.log('layer:', layer);
-     this.onChange.emit(layer);
+        event.stopPropagation();
+        this.onChange.emit(layer);
+    }
+    onMainClick () {
+        event.stopPropagation();
+        this._main = !this._main;
     }
     constructor(private layerFilter:LayerFilterComponent) { }
 
     ngOnInit() { 
-        
-        
-        // console.log("ngOnInit , adminMode:",this.layerFilter.adminMode );
-        
-        // this.layerFilter.adminMode(false); //set mode to user mode (display "Search")
-        // console.log("ngOnInit , adminMode:",this.layerFilter.isAdminMode );
     }
     ngOnChanges(changes : SimpleChange){
       

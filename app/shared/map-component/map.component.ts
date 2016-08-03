@@ -1,4 +1,4 @@
-import { Component, Directive ,OnInit,NgZone,provide,Output, EventEmitter} from '@angular/core';
+import { Component, Directive ,OnInit,NgZone,provide,Input, Output, EventEmitter} from '@angular/core';
 import {ToggleButton} from '../directives/toggle-button';
 import {GoogleMapsAPIWrapper ,MapsAPILoader, NoOpMapsAPILoader, MouseEvent, GOOGLE_MAPS_PROVIDERS, GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
 import {MarkFilterPipe} from '../pipes/filter-list.pipe';
@@ -16,28 +16,20 @@ interface marker {
     layerId: string;
 }
 
-
-
 @Component({
     moduleId: module.id,
-    // selector: 'sebm-google-map',
-    selector: 'sebm-google-map',
+    selector: 'map',
     directives: [GOOGLE_MAPS_DIRECTIVES,ToggleButton, MapLayerComponent],
     providers: [GoogleMapsAPIWrapper, LayerFilterComponent],
     pipes: [MarkFilterPipe],
-    // providers: [ANGULAR2_GOOGLE_MAPS_PROVIDERS,layers],
-    // providers: [LayerService],
-    styles: [`
-    .sebm-google-map-container {
-       margin-top: 25%;
-       height: 83% ;
-     }
-  `],
-
+    styles: [`.sebm-google-map-container {
+                margin-top: 25%;
+                height: 83% ;
+              }`],
     template: `
-
-    <div>
-        <mapLayers [layers]="_layers" (onChange)="filterChanged($event)">map layers</mapLayers>
+    <mapLayers *ngIf="options.showLayers" [layers]="_layers" (onChange)="filterChanged($event)">map layers</mapLayers>
+    
+    <div class="map">
         <sebm-google-map 
         [latitude]="_lat"
         [longitude]="_lng"
@@ -45,8 +37,8 @@ interface marker {
         [disableDefaultUI]="false"
         [zoomControl]="false"
         (mapClick)="mapClicked($event)
-            ">
-            
+        ">
+
         <sebm-google-map-marker 
             *ngFor="let m of _markers | markPipe; let i = index"
             (markerClick)="clickedMarker(m.label, i)"
@@ -54,15 +46,19 @@ interface marker {
             [longitude]="m.lng"
             [label]="m.label"
             [markerDraggable]="m.draggable"
-            (dragEnd)="markerDragEnd(m, $event)
-            ">
+            (dragEnd)="markerDragEnd(m, $event)"
+            [scrollwheel]= "true"
+            (dragEnd)="markerDragEnd(m, $event)"
+            [iconUrl]="'app/marks/icons/' + m.symbol + '.png'"
+            >
+            
             
             <sebm-google-map-info-window>
-            <strong>{{m.label}}</strong>
+               <strong>{{m.label}}</strong>
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
         
-        <sebm-google-map-marker *ngIf="_myPos"
+        <sebm-google-map-marker *ngIf="options.showMe && _myPos"
           [latitude]="_myPos.lat"
           [longitude]="_myPos.lng"
           [label]="'Me'">
@@ -74,6 +70,7 @@ interface marker {
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <a class="btn addLayer-btn" routerLink="/layer/edit">Add your own Layer</a>
     </nav>
+    
 `
 })
 
@@ -85,7 +82,7 @@ export class MapComponent implements OnInit {
     // google maps zoom level
     zoom: number = 16;
     
-
+    @Input() private options = {showMe: true, showLayers:true}
     @Output() private locAdded = new EventEmitter;
 
     // center position for the map
@@ -96,7 +93,8 @@ export class MapComponent implements OnInit {
     
     private _layers  : LayerModel[];
     private _markers : marker[] = [];
-    private _myPos    : marker; 
+    private _myPos    : marker;
+    private _mapLayers : boolean = true; 
 
     constructor(private _wrapper: GoogleMapsAPIWrapper, private layerService: LayerService){
          this._wrapper.getNativeMap().then((m) => {
@@ -114,7 +112,6 @@ export class MapComponent implements OnInit {
     ngOnInit(){
         //gets the current position
         this.getCurrentPosition();
-        
         const prmLayers = this.layerService.query();
         prmLayers.then((layers:LayerModel[]) => {
             //by query it gets our layers to layers[]
@@ -127,12 +124,11 @@ export class MapComponent implements OnInit {
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(this.showPosition.bind(this), this.showError.bind(this));
         }
-
     }
     
     //gets the current location and rendering it to the map
     getCurrentPosition () {
-        console.log('im here...getting position');
+        // console.log('im here...getting position');
         
         let myPosition;
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -142,10 +138,18 @@ export class MapComponent implements OnInit {
             this._lng = myPosition.lng;
         })
     }
+    
+    //sets the property _mapLayers
+    public set mapLayers(inMapLayers : boolean) {
+        this._mapLayers = inMapLayers;
+    }
+
 
     createMarkers(layer) {
         layer.locs.forEach(loc => {
-            const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
+            // const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
+            //need to check if its works
+            const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.name, isShown: false });
             this._markers.push(marker);
         })
     }
