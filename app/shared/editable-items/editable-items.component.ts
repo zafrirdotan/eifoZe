@@ -8,33 +8,29 @@ import {MapComponent} from '../map-component/map.component';
   directives: [REACTIVE_FORM_DIRECTIVES, MapComponent],
   template: `
     <section>
-     <button type="button"  class="btn btn-default" (click)="visibleFlag = !visibleFlag">Add Location</button>
-      <div [hidden]="!visibleFlag" >
-       <button type="button"  class="btn" (click)="visibleMap = !visibleMap">Use Map</button>
-       
-       <map (locAdded)="newLoc = $event" [options]="mapOptions"></map>
-       
-          <div class="form-group">
-            <label>Name:</label>
-            <input type="text" class="form-control" [(ngModel)]="newLoc.name">
-          </div>
-
-          <div class="form-group">
-            <label>lat:</label>
-            <input type="number" class="form-control"  [(ngModel)]="newLoc.lat">
-          </div>
-
-          <div class="form-group">
-          <label>lng:</label>
-
-          <input type="number" class="form-control"  [(ngModel)]="newLoc.lng">
-
-          </div>
-
-          <button type="button" class="btn btn-default" (click)="addLoc()">Add</button>
-          <button type="button" class="btn btn-info"  (click)="visibleFlag=false" >Cancel</button>
+      <div class="add-loc">
         
+        <div class="form-group locs">
+          <!--<label>Location name:</label>-->
+          <input type="text" class="form-control" [(ngModel)]="newLoc.name" placeholder="Location name">
+        </div>
+
+        <div class="form-group locs">
+          <!--<label>lat:</label>-->
+          <input type="number" class="form-control"  [(ngModel)]="newLoc.lat" placeholder="lat">
+        </div>
+
+        <div class="form-group locs">
+        <!--<label>lng:</label>-->
+        <input type="number" class="form-control"  [(ngModel)]="newLoc.lng" placeholder="lng">
+
+        </div>
+        
+
+            <button type="button" class="btn btn-add" (click)="addLoc()">Add</button>
+            <button type="button" class="btn btn-cancel"  (click)="visibleFlag=false" >Cancel</button>
       </div>
+        <map (locAdded)="newLoc = $event" [options]="mapOptions"></map>
       <h2> {{itemsLayerName}}</h2>
 
     
@@ -46,7 +42,9 @@ import {MapComponent} from '../map-component/map.component';
                      <tr *ngFor="let item of items ">
                         <td>{{item.name}}</td>
                         <td>
-                            <button class="btn btn-danger" (click)="removeItem(item)">Delete</button>
+                            <button class="btn-delete" (click)="removeItem(item)">
+                              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
                         </td>
                     </tr>
       </table>

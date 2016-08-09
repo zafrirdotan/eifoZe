@@ -1,5 +1,4 @@
 import { Component, Directive ,OnInit,NgZone,provide,Input, Output, EventEmitter} from '@angular/core';
-import {ToggleButton} from '../directives/toggle-button';
 import {GoogleMapsAPIWrapper ,MapsAPILoader, NoOpMapsAPILoader, MouseEvent, GOOGLE_MAPS_PROVIDERS, GOOGLE_MAPS_DIRECTIVES} from 'angular2-google-maps/core';
 import {MarkFilterPipe} from '../pipes/filter-list.pipe';
 import {LayerService} from '../../layer/layer.service';
@@ -19,16 +18,22 @@ interface marker {
 @Component({
     moduleId: module.id,
     selector: 'map',
-    directives: [GOOGLE_MAPS_DIRECTIVES,ToggleButton, MapLayerComponent],
+    directives: [GOOGLE_MAPS_DIRECTIVES, MapLayerComponent],
     providers: [GoogleMapsAPIWrapper, LayerFilterComponent],
     pipes: [MarkFilterPipe],
     styles: [`.sebm-google-map-container {
-                margin-top: 25%;
-                height: 83% ;
+                
+                height: 91% ;
               }`],
     template: `
+    <div class="button-box">
+        <div class="butten-box-right">
     <mapLayers *ngIf="options.showLayers" [layers]="_layers" (onChange)="filterChanged($event)">map layers</mapLayers>
-    
+        <a *ngIf="options.showLayers" class="btn addLayer-btn" routerLink="/layer/edit"> 
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
+        </div>
+    </div>
     <div class="map">
         <sebm-google-map 
         [latitude]="_lat"
@@ -65,11 +70,10 @@ interface marker {
         </sebm-google-map-marker>
         
         </sebm-google-map>
+
     </div>
 
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <a class="btn addLayer-btn" routerLink="/layer/edit">Add your own Layer</a>
-    </nav>
+   <footer class="footer"></footer>
     
 `
 })
@@ -86,10 +90,8 @@ export class MapComponent implements OnInit {
     @Output() private locAdded = new EventEmitter;
 
     // center position for the map
-    // lat: number = 32.087289;
-    // lng: number = 34.803521;
-    private _lat : number = 0;
-    private _lng : number = 0;
+    private _lat : number = 32.087289;
+    private _lng : number = 34.803521;
     
     private _layers  : LayerModel[];
     private _markers : marker[] = [];
@@ -149,7 +151,7 @@ export class MapComponent implements OnInit {
         layer.locs.forEach(loc => {
             // const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
             //need to check if its works
-            const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.name, isShown: false });
+            const marker = Object.assign({}, loc, {layerId: layer.id , symbol : layer.symbol, isShown: false });
             this._markers.push(marker);
         })
     }

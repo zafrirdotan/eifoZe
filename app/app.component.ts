@@ -16,7 +16,7 @@ import {from} from "rxjs/observable/from";
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [ ChatRoomService, LayerService, ToastsManager, {provide: 'io', useValue: io}]
+  providers: [ ChatRoomService, LayerService, ToastsManager]
 })
 export class AppComponent {
     title = 'google map\'s app';

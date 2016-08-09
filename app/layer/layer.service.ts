@@ -70,7 +70,11 @@ export class LayerService {
     } else {
 	    const url = this.baseUrl;
       delete layerData['_id'];
+      console.log('in save service',layerData);
+      
       response = this.http.post(url, layerData)
+      console.log('after post');
+      
       console.log('response:',response);
     }
 

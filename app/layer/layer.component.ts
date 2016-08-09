@@ -11,7 +11,7 @@ export interface ILoc {
 
 @Component({
   moduleId: module.id,
-  styleUrls: [`layer.css`],
+  styleUrls: [``],
   // selector: 'monster-list',
   template: `
     <section *ngIf="layer">

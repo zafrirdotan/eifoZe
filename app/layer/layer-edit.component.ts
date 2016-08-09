@@ -9,8 +9,28 @@ import {EditableItemsComponent} from '../shared/editable-items/editable-items.co
 @Component({
   moduleId: module.id,
   // selector: 'monster-edit',
-  templateUrl: 'layer-edit.component.html',
-  directives: [REACTIVE_FORM_DIRECTIVES, EditableItemsComponent]
+  directives: [REACTIVE_FORM_DIRECTIVES, EditableItemsComponent],
+  template: `
+    <!--<h1>Add Layer</h1>-->
+    <form [formGroup]="frmLayer" (submit)="save()" >
+    <div class="layer-name">
+        <!--<label>Layer Name:</label>-->
+        <input type="text" class="form-control" formControlName="name" placeholder="Layer Name" autofocus >
+        <p class="text-danger" *ngIf="frmLayer.controls.name.dirty && frmLayer.controls.name.errors?.required">Layer has no name</p>
+        <p class="text-danger" *ngIf="frmLayer.controls.name.dirty && frmLayer.controls.name.errors?.minlength">Layer's name too short</p>
+        <p class="text-danger" *ngIf="frmLayer.controls.name.dirty && frmLayer.controls.name.errors?.maxlength">Layer's name too long</p>
+    </div>
+    <editable-items [items]="layer.locs" [itemsLayerName]="layer.name" (edit)="editLoc($event)" >editable-items...</editable-items>
+
+    <button type="submit" [disabled]="!frmLayer.valid" class="btn btn-saveLayer">Save layer</button>
+    </form>
+        
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+            <a class="btn btn-default" routerLink="/map">Back to Map</a>
+            <a class="btn btn-default" routerLink="/layer">Admin</a>
+    </nav>
+  `
 })
 export class LayerEditComponent implements OnInit {
 
@@ -51,7 +71,10 @@ export class LayerEditComponent implements OnInit {
     console.log('this.layer',this.layer);
     this.layerService.save(this.layer, layerId)
       .then(()=>{
+          console.log('after save before navigate', this.layer);
+          
           this.router.navigate(['/layer']);
+          console.log('after save after navigate', this.layer);
     
       });
 
@@ -75,7 +98,6 @@ export class LayerEditComponent implements OnInit {
        switch (action.type) {
           case 'remove':
               editedLocs = this.layer.locs.filter(locs => locs.label !== action.item.name )
-
           break;
           case 'add':
               editedLocs =[...this.layer.locs, action.item]

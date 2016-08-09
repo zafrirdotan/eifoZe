@@ -1,105 +1,178 @@
 
 $badass: #f8f8f8;
+$font-stack:    Helvetica, sans-serif;
+$font-titel:    Helvetica, sans-serif;
+$primary-color: teal;
+$secondary-color: white; 
+$transparent-white: rgba(255,255,255,0.85);
+$delete-color: #dd2525;
+
 body { 
-  background-color: $badass; 
+  background-color: $badass;
+}
+.app-container {
+    margin-top: 51px;
+    
+.footer{
+    height: 3px;
+}
+
 }
 .titel{
-    color: #32a298 !important;
-    text-decoration: underline;
-    font-size: 26px;
-    font-family: cursive;
-    font-weight: bolder;
+    background-color: $primary-color;
+    color: $secondary-color;
+    padding-left: 9px;
+    font-size: 34px;
+    font-family: $font-stack;
+}
+.btn-menu{
+    height: 30px;
+    width: 30px;
+}
+
+.button-box{
+    position: absolute;
+    height: 100%;
+    z-index: 4;
+    right: 3px;
+
+}
+.butten-box-right{
+    float: right;
+}
+mapLayers{
+    width: 70px;
+    height: 75%;
+    background: transparent;
 }
 .addLayer-btn{
-      padding: 9px 58px;
-      font-size: 25px;
-      border: gray solid 1px;
-      color: #2e2828;
-}
-.navbar-nav {
-    margin: 0.0px 0px;
-    margin-left: -13px;
-}
-.navbar-default {
-    background-color: #eaeaea;
-    border-color: #e7e7e7;
+    color: $secondary-color;
+    border-radius: 43px;
+    background-color: $primary-color;
+    border: solid 2px $secondary-color;
+    outline: none;
+    position: absolute;
+    right: 2px;
+    bottom: 120px;
+   
 }
 
-div.tagl-visb-btns {
-    right: 0;    
-}
-
-ToggleBtn.mainToggleBtnOff {
-    background: gray;
-}
 
 .btn{
-    padding: 1em;
-    font-size: 93%;
-    font-weight: bolder;
-    position: absolute;
-    left: 30%;
-    right: 30%;
-    background: greenyellow;
+  padding: 17px 21px;;
+  font-size: 25px;
 }
-
 map{
-    height: 308px;
+     height: 308px;
 }
 
 .saveLayer{
-    margin-bottom: 48px;;
+margin-bottom: 48px;;
 }
 
-mapLayers{
-    position: fixed;
-    z-index: 4;
-    right: 0;
-    margin-top: 2em;
-    display: block;
-    width: 5.2em;
-    height: 75%;
-    background: transparent
-}
-.off{ 
-    
-    color: green !important;
-    margin: 0.2em -0.5em;
-    font-size: 1em;
-    width: 4em;
-    border-radius: 1em;
-    text-align: center;
-    // color: green !important;
-    // margin: 3px -5px;
-    // font-size: 18px;
-    // width: 69px;
-    // border-radius: 27px;
-    // padding: 13px;
-    // text-align: center;
-}
-.on[_ngcontent-sjj-7] {
-    background-color: #c3c3dc;
-    color: black;
-}
-.on {
-    margin: -2em -0.3em;
-    /* font-size: 18px; */
+.visb-Btn{
+    margin: 3px -14px;
+    font-size: 12px;
+    color: $primary-color;
     width: 69px;
-    /* border-radius: 27px; */
+    height: 65px;
+    border-radius: 43px;
+    padding: 4px;
     text-align: center;
-    // margin: 3px -5px;
-    // font-size: 18px;
-    // width: 69px;
-    // border-radius: 27px;
-    // padding: 13px;
-    // text-align: center;
-}
-section.container {
-    padding-top: 0.4em;
-    margin-top: 3.6em;
+    background-color: $transparent-white;
+    border: solid $primary-color 2px;
+    outline: none;
+    &.on{
+        color: $secondary-color;
+        background-color: $primary-color;
+        border: solid $secondary-color 2px;
+    }
+    // &.off{ 
+    // }
 }
 
+.mainToggleBtn{
+    
+    margin: 0px 2px;
+    font-size: 12px;
+    width: 69px;
+    border-radius: 27px;
+    padding: 13px;
+    text-align: center;
+    color: $primary-color;
+    background-color: $secondary-color;
+    border: solid $primary-color 2px;
+    outline: none;
+    &.mainToggleBtnOn{
+        color: $secondary-color;
+        background-color: $primary-color;
+        border: solid $secondary-color 2px;
+    
+    }
+    // &.mainToggleBtnOff{
+    
+    // }
+}
 
+.scrollBar{
+    overflow-y: scroll;
+    height: 444px;
+    overflow-x: visible;
+    width: 69px;
+    padding-left: 15px;
+}
+
+::-webkit-scrollbar {
+    display: none ;
+}
+
+.layer-name{
+    position: absolute;
+    z-index: 4;
+    margin: 12px 10px
+}
+.add-loc{
+    position: absolute;
+    z-index: 4;
+    top: 430px;
+    width: 100%;
+}
+.locs{
+    width: 37%;
+    margin: 7px 7px;
+}
+
+.btn-add{
+    color: $secondary-color;
+    background-color: $primary-color;
+    height: 44px;
+    padding: 4px 22px;
+    outline: none;
+}
+.btn-cancel{
+    height: 44px;
+    padding: 4px 22px;
+    outline: none;
+    border-color: $primary-color;
+    color: $primary-color;
+}
+.btn-delete{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    padding: 1px 1px;
+    outline: none;
+    border-color: $secondary-color;
+    color: $secondary-color;
+    background-color: $delete-color;
+}
+.btn-saveLayer{
+    color: $secondary-color;
+    background-color: $primary-color;
+    height: 44px;
+    padding: 4px 6px;
+    outline: none;
+}
 
 // ======================= MAIN SCSS =======================
 
@@ -111,4 +184,6 @@ section.container {
 
 // == Pages ==
 @import "pages/home";
+
+
 

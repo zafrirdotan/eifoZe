@@ -5,20 +5,20 @@ import {LayerService} from './layer.service';
 import {LayerModel} from './layer.model';
 import {FilterByPipe} from '../shared/pipes/filter-list.pipe';
 import {LayerFilterComponent} from './layer-filter.component';
-import {LayerThumbComponent} from './layer-thumb.component';
+
 
 
 @Component({
   moduleId: module.id,
-  styleUrls: [`layer.css`],
+  styleUrls: [``],
   pipes: [FilterByPipe],
-  directives: [LayerFilterComponent, LayerThumbComponent],
+  directives: [LayerFilterComponent],
   // selector: 'monster-list',
   template: `
 
   <section>
     <h2> Edit Layers</h2>
-    <layer-filter (filterChange)="filter = $event"></layer-filter>
+    
     <a routerLink="/layer/edit" class="btn btn-primary">+ Add Layer</a>
   </section>
   <table  class="table table-hover">

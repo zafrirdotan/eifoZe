@@ -2,27 +2,27 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChange} from '@an
 import {MapComponent} from '../map-component/map.component';
 import {LayerFilterComponent} from '../../layer/layer-filter.component'
 import {LayerListComponent} from '../../layer/layer-list.component'
-import {ToggleButton} from '../directives/toggle-button';
 import {FilterByPipe} from '../../shared/pipes/filter-list.pipe';
 import {LayerModel} from "../../layer/layer.model";
+import {ToggleButton} from './toggleButton';
+
 
 @Component({
     moduleId: module.id,
     selector: 'mapLayers',
     pipes: [FilterByPipe],
-    directives: [LayerFilterComponent, ToggleButton, MapLayerComponent],
-    styles: [``],
+    directives: [LayerFilterComponent, MapLayerComponent, ToggleButton],
     template: `<section class="mapLayers">
-                    <!--<layer-filter  (filterChange)="filter = $event"></layer-filter>-->
                 <div class="tagl-visb-btns">
-                    <toggleButton class="mainToggleBtn" [ngClass]="_main ? 'mainToggleBtnOn' : 'mainToggleBtnOff'" (click)="onMainClick()">
-                        <div *ngIf="_main">
-                            <toggleButton *ngFor="let layer of layers" (click)="onClick($event, layer)" 
-                                class="visb-Btn" [ngClass]="on ? 'on' : 'off'">
+                    <button class="mainToggleBtn" [ngClass]="_main ? 'mainToggleBtnOn' : 'mainToggleBtnOff'" (click)="onMainClick()">
+                        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+                    </button>
+
+                        <div class="scrollBar" *ngIf="_main" >
+                            <toggleButton *ngFor="let layer of layers" (click)="onClick($event, layer)">
                                 {{layer.name}}
                             </toggleButton>
                         </div>
-                    </toggleButton>
                 </div>
                </section>
                 `
@@ -31,10 +31,9 @@ import {LayerModel} from "../../layer/layer.model";
 
 export class MapLayerComponent implements OnInit {
     private search = true;
-    // private layerFilter = false;
     private _main = false;
-    private _test: string = '+'
     @Input() on = false;
+    // private _test: string = '+'
     @Input() private layers: LayerModel[];
     @Output() onMainChange = new EventEmitter();
     @Output() onChange = new EventEmitter();
